@@ -28,9 +28,9 @@
   "dependencies": {
     "express": "^4.17.3",
     "express-async-errors": "^3.1.1",
-    "pg": "^8.7.3",
     "reflect-metadata": "^0.1.13",
     "ts-node-dev": "^1.1.8",
-    "typeorm": "^0.3.6"
+    "pg": "^8.3.0",
+    "typeorm": "^0.2.25"
   }
 }
