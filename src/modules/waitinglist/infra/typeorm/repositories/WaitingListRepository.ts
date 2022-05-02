@@ -2,10 +2,13 @@
 import { getRepository, Repository } from 'typeorm';
 
 import IAddPatientInListDTO from '../../../dtos/IAddPatientInListDTO';
+import IAttendPatientDTO from '../../../dtos/IAttendPatientDTO';
 
 import IWaitingListRepository from '../../../repositories/IWaitingListRepository';
 
 import WaitingList from '../entities/WaitingList';
+
+import AppError from '../../../../../shared/errors/AppError';
 
 class WaitingListRepository implements IWaitingListRepository {
     private ormRepository: Repository<WaitingList>;
@@ -34,6 +37,27 @@ class WaitingListRepository implements IWaitingListRepository {
         });
 
         return waitingList;
+    }
+
+    public async attendPatient({
+        cpf
+    }: IAttendPatientDTO): Promise<WaitingList> {
+        const patientInList = await this.ormRepository.findOne({
+            where: { cpf },
+        });
+
+        if (!patientInList) {
+            throw new AppError("Patient not found in WaitingList", 404);
+        };
+
+        const updatedPatient = {
+            ...patientInList,
+            attended: true,
+        };
+
+        await this.ormRepository.save(updatedPatient);
+
+        return updatedPatient;
     }
 
 }
