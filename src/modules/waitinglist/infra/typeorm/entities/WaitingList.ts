@@ -3,7 +3,6 @@ import Patient from '../../../../patient/infra/typeorm/entities/Patient';
 import {
     Entity,
     Column,
-    PrimaryColumn,
     PrimaryGeneratedColumn,
     CreateDateColumn,
     UpdateDateColumn,
