@@ -5,6 +5,7 @@ import { Request, Response } from 'express';
 import AddPatientService from '../../../services/AddPatientService';
 import AttendPatientService from '../../../services/AttendPatientService';
 import RemovePatientService from '../../../services/RemovePatientService';
+import ShowPatientInListService from '../../../services/ShowPatientInListService';
 
 class WaitingListController {
     public async addPatient(request: Request, response: Response): Promise<Response> {
@@ -47,10 +48,14 @@ class WaitingListController {
     };
 
     public async show(request: Request, response: Response): Promise<Response> {
-        return response.json();
+        const { cpf } = request.params;
+
+        const showPatientInList = container.resolve(ShowPatientInListService);
+
+        const patientInList = await showPatientInList.execute({ cpf });
+
+        return response.json(patientInList);
     };
-
-
 };
 
 export default WaitingListController;
