@@ -18,7 +18,7 @@ class WaitingList {
     @Column()
     patient_cpf: string;
 
-    @OneToOne(() => Patient)
+    @OneToOne(type => Patient, { primary: true })
     @JoinColumn({ name: "patient_cpf" })
     patient: Patient;
 
