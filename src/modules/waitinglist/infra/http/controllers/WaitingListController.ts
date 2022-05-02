@@ -3,6 +3,8 @@ import { container } from 'tsyringe';
 import { Request, Response } from 'express';
 
 import AddPatientService from '../../../services/AddPatientService';
+import AttendPatientService from '../../../services/AttendPatientService';
+
 class WaitingListController {
     public async addPatient(request: Request, response: Response): Promise<Response> {
         const { cpf, priority } = request.body;
@@ -15,7 +17,6 @@ class WaitingListController {
         });
 
         return response.json(patientInList);
-
     };
 
     public async removePatient(request: Request, response: Response): Promise<Response> {
@@ -23,7 +24,13 @@ class WaitingListController {
     };
 
     public async attendPatient(request: Request, response: Response): Promise<Response> {
-        return response.json();
+        const { cpf } = request.params;
+
+        const attendPatient = container.resolve(AttendPatientService);
+
+        const patientAttended = attendPatient.execute({ cpf});
+
+        return response.json(patientAttended);
     };
 
     public async index(request: Request, response: Response): Promise<Response> {
