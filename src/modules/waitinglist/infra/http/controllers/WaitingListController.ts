@@ -15,7 +15,7 @@ class WaitingListController {
 
         const addPatient = container.resolve(AddPatientService);
 
-        const patientInList = addPatient.execute({
+        const patientInList = await addPatient.execute({
             cpf,
             priority
         });
@@ -40,7 +40,7 @@ class WaitingListController {
 
         const attendPatient = container.resolve(AttendPatientService);
 
-        const patientAttended = attendPatient.execute({ cpf});
+        const patientAttended = await attendPatient.execute({ cpf });
 
         return response.json(patientAttended);
     };
