@@ -4,6 +4,7 @@ import { getRepository, Repository } from 'typeorm';
 import IAddPatientInListDTO from '../../../dtos/IAddPatientInListDTO';
 import IAttendPatientDTO from '../../../dtos/IAttendPatientDTO';
 import IRemovePatientFromListDTO from '../../../dtos/IRemovePatientFromListDTO';
+import IFindAllDTO from '../../../dtos/IFindAllDTO';
 
 import IWaitingListRepository from '../../../repositories/IWaitingListRepository';
 
@@ -38,7 +39,7 @@ class WaitingListRepository implements IWaitingListRepository {
         });
 
         return waitingList;
-    }
+    };
 
     public async attendPatient({
         cpf
@@ -57,12 +58,30 @@ class WaitingListRepository implements IWaitingListRepository {
         await this.ormRepository.save(patientInList);
 
         return patientInList;
-    }
+    };
 
     public async removePatient({
         cpf
     }: IRemovePatientFromListDTO): Promise<void> {
         await this.ormRepository.delete(cpf);
+    };
+
+    public async findAll({ filter }: IFindAllDTO): Promise<WaitingList[]> {
+        const query = this.ormRepository.createQueryBuilder('waitinglists')
+
+        if (filter < 0) {
+            query.orderBy('waitinglists.attended', 'DESC');
+            query.orderBy('waitinglists.priority', 'DESC');
+            query.orderBy('waitinglists.created_at', 'DESC');
+        } else {
+            query.where({priority: filter})
+            query.orderBy('waitinglists.attended', 'DESC');
+            query.orderBy('waitinglists.created_at', 'DESC');
+        }
+
+        const patientsInList = await query.getMany();
+    
+        return patientsInList
     }
 }
 
