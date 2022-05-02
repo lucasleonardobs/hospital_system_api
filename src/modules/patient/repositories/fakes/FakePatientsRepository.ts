@@ -1,9 +1,9 @@
 import ICreatePatientDTO from '../../dtos/ICreatePatientDTO';
+import IDeletePatientDTO from '../../dtos/IDeletePatientDTO';
 
 import IPatientsRepository from '../IPatientsRepository';
 
 import Patient from '../../infra/typeorm/entities/Patient';
-
 class PatientsRepository implements IPatientsRepository {
     private patients: Patient[] = [];
 
@@ -32,6 +32,11 @@ class PatientsRepository implements IPatientsRepository {
         return patient;
     }
 
+    public async delete({ cpf }: IDeletePatientDTO): Promise<void> {
+        const filtered = this.patients.filter(patient => patient.cpf !== cpf);
+        this.patients = filtered;
+    }
+    
 }
 
 export default PatientsRepository;
