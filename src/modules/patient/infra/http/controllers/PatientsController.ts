@@ -3,6 +3,7 @@ import { container } from 'tsyringe';
 
 import CreatePatientService from '../../../services/CreatePatientService';
 import UpdatePatientService from '../../../services/UpdatePatientService';
+import ShowOnePatientService from '../../../services/ShowOnePatientService';
 import DeletePatientService from '../../../services/DeletePatientService';
 import ListPatientService from '../../../services/ListPatientService';
 
@@ -63,7 +64,15 @@ class PatientsController {
         return response.json(updatedPatient);
     };
 
+    public async show(request: Request, response: Response): Promise<Response> {
+        const { cpf } = request.params;
 
+        const showPatient = container.resolve(ShowOnePatientService);
+
+        const patients = await showPatient.execute({ cpf });
+
+        return response.json(patients);
+    }
 };
 
 export default PatientsController;
