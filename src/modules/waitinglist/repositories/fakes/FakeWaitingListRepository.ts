@@ -61,7 +61,11 @@ class WaitingListRepository implements IWaitingListRepository {
     };
 
     public async findAll({ filter }: IFindAllDTO): Promise<WaitingList[]> {
-        return this.waitingList;
+        if (filter == -1) {
+            return this.waitingList;
+        };
+
+        return this.waitingList.filter(patientInWaitingList => patientInWaitingList.priority == filter);
     }
 }
 
