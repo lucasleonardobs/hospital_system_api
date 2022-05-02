@@ -71,6 +71,9 @@ class PatientsRepository implements IPatientsRepository {
         this.patients = filtered;
     }
     
+    public async findAll(): Promise<Patient[] | undefined> {
+        return this.patients;
+    }
 }
 
 export default PatientsRepository;
