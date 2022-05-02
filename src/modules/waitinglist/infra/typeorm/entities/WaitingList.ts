@@ -26,7 +26,7 @@ class WaitingList {
     attended: boolean;
 
     @Column()
-    priority: 0 | 1 | 2;
+    priority: 0 | 1 | 2 | null;
 
     @CreateDateColumn()
     created_at: Date;
