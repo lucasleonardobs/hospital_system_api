@@ -12,6 +12,7 @@ interface IRequest {
     cpf: string;
     cep: string;
     address: string;
+    gender: 'male' | 'female';
 }
 
 @injectable()
@@ -21,7 +22,7 @@ class UpdatePatientService {
         private patientsRepository: IPatientsRepository,
     ) {}
 
-    public async execute({ name, date_of_birth, phone_number, cpf, cep, address }: IRequest): Promise<Patient> {
+    public async execute({ name, date_of_birth, phone_number, cpf, cep, address, gender }: IRequest): Promise<Patient> {
         const checkPatientExists = await this.patientsRepository.findByCpf(cpf);
 
         if (!checkPatientExists) {
@@ -35,6 +36,7 @@ class UpdatePatientService {
             cpf,
             cep,
             address,
+            gender
         });
 
         return patient;
