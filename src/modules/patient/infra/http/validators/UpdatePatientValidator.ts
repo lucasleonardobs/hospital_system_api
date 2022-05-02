@@ -10,5 +10,6 @@ export default celebrate({
         phone_number: Joi.string().required(),
         cep: Joi.string().required(),
         address: Joi.string().required(),
+        gender: Joi.string().valid('male', 'female').required()
     },
 });
