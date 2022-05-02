@@ -18,7 +18,8 @@ describe('ListOrder', () => {
             phone_number: "81999998888",
             cpf: "111.222.333-44",
             cep: "50555-555",
-            address: "Rua dos Artistas, No 30, Pinheiros, Recife"
+            address: "Rua dos Artistas, No 30, Pinheiros, Recife",
+            gender: 'male'
         });
 
         await createPatient.execute({
@@ -27,7 +28,8 @@ describe('ListOrder', () => {
             cep: '44444-444',
             cpf: '444.444.444-40',
             date_of_birth: new Date(2014-10-11),
-            phone_number: '55944443333'
+            phone_number: '55944443333',
+            gender: 'male'
         });
 
         const patientList = await listPatient.execute();
