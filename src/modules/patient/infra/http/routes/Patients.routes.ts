@@ -11,9 +11,9 @@ import paginatePatientValidator from '../validators/PaginatePatientValidator';
 const patientRouter = Router();
 const patientController = new PatientController();
 
+patientRouter.post('/', createPatientValidator, patientController.create);
 patientRouter.get('/', paginatePatientValidator, patientController.index)
 patientRouter.get('/:cpf', showPatientValidator, patientController.show);
-patientRouter.post('/', createPatientValidator, patientController.create);
 patientRouter.put('/:cpf', updatePatientValidator, patientController.update);
 patientRouter.delete('/:cpf', deletePatientValidator, patientController.delete);
 
