@@ -34,7 +34,7 @@ class PatientsController {
         await deletePatient.execute({ cpf });
 
         return response.json({
-            message: 'Order has been deleted with successful.',
+            message: 'Patient has been deleted with successful.',
         });
     }
 
