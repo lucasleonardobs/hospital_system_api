@@ -4,6 +4,7 @@ import { container } from 'tsyringe';
 import CreatePatientService from '../../../services/CreatePatientService';
 import UpdatePatientService from '../../../services/UpdatePatientService';
 import DeletePatientService from '../../../services/DeletePatientService';
+import ListPatientService from '../../../services/ListPatientService';
 
 class PatientsController {
     public async create(request: Request, response: Response): Promise<Response> {
@@ -36,6 +37,14 @@ class PatientsController {
         });
     }
 
+    public async index(request: Request, response: Response): Promise<Response> {
+        const listPatientService = container.resolve(ListPatientService);
+    
+        const patients = await listPatientService.execute()
+    
+        return response.json(patients);
+    }
+
     public async update(request: Request, response: Response): Promise<Response> {
         const { cpf } = request.params;
         const { name, date_of_birth, phone_number, cep, address } = request.body;
@@ -53,6 +62,7 @@ class PatientsController {
 
         return response.json(updatedPatient);
     };
+
 
 };
 
