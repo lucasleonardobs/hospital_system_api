@@ -2,6 +2,8 @@ import express, { Request, Response, NextFunction } from 'express';
 import { errors } from 'celebrate';
 
 import 'express-async-errors';
+import 'reflect-metadata';
+import 'shared/container';
 import '../typeorm/index';
 
 import routes from './routes/routes';
