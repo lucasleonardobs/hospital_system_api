@@ -34,18 +34,25 @@ class WaitingListRepository implements IWaitingListRepository {
     };
 
     public async findByCpf(cpf: string): Promise<WaitingList | undefined> {
-        const waitingList = await this.ormRepository.findOne({
-            where: { cpf },
-        });
+        const query = this.ormRepository.createQueryBuilder('waitinglists');
 
-        return waitingList;
+        query.leftJoinAndSelect("waitinglists.patient", "patients");
+        query.select([
+            'waitinglists.id', 'waitinglists.patient_cpf', 'waitinglists.attended', 'waitinglists.priority', 'waitinglists.created_at',
+            'patients.name', 'patients.date_of_birth', 'patients.phone_number', 'patients.cep', 'patients.address', 'patients.gender']
+        );
+        query.where({ patient_cpf: cpf });
+
+        const patientsInList = await query.getOne();
+    
+        return patientsInList
     };
 
     public async attendPatient({
         cpf
     }: IAttendPatientDTO): Promise<WaitingList> {
         const patientInList = await this.ormRepository.findOne({
-            where: { cpf },
+            where: { patient_cpf: cpf },
         });
 
         if (!patientInList) {
@@ -53,7 +60,7 @@ class WaitingListRepository implements IWaitingListRepository {
         };
 
         patientInList.attended = true;
-        patientInList.priority = null;
+        patientInList.priority = -1;
 
         await this.ormRepository.save(patientInList);
 
@@ -63,21 +70,30 @@ class WaitingListRepository implements IWaitingListRepository {
     public async removePatient({
         cpf
     }: IRemovePatientFromListDTO): Promise<void> {
-        await this.ormRepository.delete(cpf);
+        await this.ormRepository.createQueryBuilder()
+            .where("patient_cpf = :patient_cpf", { 
+                patient_cpf: cpf
+            }).delete().execute();
     };
 
     public async findAll({ filter }: IFindAllDTO): Promise<WaitingList[]> {
         const query = this.ormRepository.createQueryBuilder('waitinglists')
 
-        if (filter < 0) {
-            query.orderBy('waitinglists.attended', 'DESC');
-            query.orderBy('waitinglists.priority', 'DESC');
-            query.orderBy('waitinglists.created_at', 'DESC');
-        } else {
+        if (filter >= 0) {
             query.where({priority: filter})
-            query.orderBy('waitinglists.attended', 'DESC');
-            query.orderBy('waitinglists.created_at', 'DESC');
+            query.orderBy('attended', 'DESC');
+            query.addOrderBy('created_at', 'DESC');
+        } else {
+            query.orderBy('attended', 'ASC');
+            query.addOrderBy('priority', 'DESC');
+            query.addOrderBy('waitinglists.created_at', 'DESC');
         }
+
+        query.leftJoinAndSelect("waitinglists.patient", "patients") 
+        query.select([
+            'waitinglists.id', 'waitinglists.patient_cpf', 'waitinglists.attended', 'waitinglists.priority', 'waitinglists.created_at',
+            'patients.name', 'patients.date_of_birth', 'patients.phone_number', 'patients.cep', 'patients.address', 'patients.gender']
+        );
 
         const patientsInList = await query.getMany();
     
