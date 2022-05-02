@@ -2,6 +2,7 @@ import { Router } from 'express';
 
 import addPatientValidator from '../validators/AddPatientValidator';
 import attendPatientValidator from '../validators/AttendPatientValidator';
+import removePatientValidator from '../validators/RemovePatientValidator';
 
 import WaitingListController from '../controllers/WaitingListController';
 
@@ -10,7 +11,7 @@ const waitingListController = new WaitingListController();
 
 waitingListRouter.post('/', addPatientValidator, waitingListController.addPatient);
 waitingListRouter.patch('/:cpf', attendPatientValidator, waitingListController.attendPatient);
-waitingListRouter.delete('/:cpf', waitingListController.removePatient);
+waitingListRouter.delete('/:cpf', removePatientValidator, waitingListController.removePatient);
 waitingListRouter.get('/', waitingListController.index)
 waitingListRouter.get('/:cpf', waitingListController.show);
 
