@@ -4,10 +4,10 @@ WORKDIR /usr/app
 
 COPY package.json ./
 
-RUN npm install --legacy-peer-deps
+RUN yarn
 
 COPY . .
 
 EXPOSE 3333
 
-CMD ["npm", "run", "dev:server"]
+CMD ["yarn", "dev:server"]
