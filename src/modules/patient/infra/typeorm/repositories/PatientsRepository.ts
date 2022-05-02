@@ -25,7 +25,7 @@ class PatientsRepository implements IPatientsRepository {
         cep,
         address,
     }: ICreatePatientDTO): Promise<Patient> {
-        const user = this.ormRepository.create({
+        const patient = this.ormRepository.create({
             name,
             date_of_birth,
             cpf,
@@ -33,9 +33,9 @@ class PatientsRepository implements IPatientsRepository {
             address,
         });
 
-        await this.ormRepository.save(user);
+        await this.ormRepository.save(patient);
 
-        return user;
+        return patient;
     }
 
     public async delete({ cpf }: IDeletePatientDTO): Promise<void> {

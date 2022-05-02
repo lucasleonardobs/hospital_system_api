@@ -18,7 +18,8 @@ describe('CreatePatient', () => {
             phone_number: "81999998888",
             cpf: "111.222.333-44",
             cep: "50555-555",
-            address: "Rua dos Artistas, No 30, Pinheiros, Recife"
+            address: "Rua dos Artistas, No 30, Pinheiros, Recife",
+            gender: 'male'
         });
 
         expect(patient).toHaveProperty('created_at');
@@ -37,7 +38,8 @@ describe('CreatePatient', () => {
             phone_number: '81999998888',
             cpf: "111.222.333-44",
             cep: "30333-333",
-            address: "Rua dos Louscos Paranoicos, No 30, Pinheiros, Recife"
+            address: "Rua dos Louscos Paranoicos, No 30, Pinheiros, Recife",
+            gender: 'male'
         });
 
         expect(
@@ -47,8 +49,8 @@ describe('CreatePatient', () => {
             phone_number: "81999998888",
             cpf: "111.222.333-44",
             cep: "20222-222",
-            address: "Rua dos Funkeiros, No 30, Pinheiros, Recife"
-            }),
-        ).rejects.toBeInstanceOf(AppError);
+            address: "Rua dos Funkeiros, No 30, Pinheiros, Recife",
+            gender: 'female'
+        })).rejects.toBeInstanceOf(AppError);
     });
 });
