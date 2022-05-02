@@ -6,7 +6,6 @@ import IUpdatePatientDTO from '../../../dtos/IUpdatePatientDTO';
 import IDeletePatientDTO from '../../../dtos/IDeletePatientDTO';
 import IPatientsRepository from '../../../repositories/IPatientsRepository';
 
-
 import AppError from '../../../../../shared/errors/AppError';
 
 import Patient from '../entities/Patient';
@@ -24,13 +23,17 @@ class PatientsRepository implements IPatientsRepository {
         cpf,
         cep,
         address,
+        phone_number,
+        gender,
     }: ICreatePatientDTO): Promise<Patient> {
         const patient = this.ormRepository.create({
             name,
             date_of_birth,
             cpf,
+            phone_number,
             cep,
             address,
+            gender,
         });
 
         await this.ormRepository.save(patient);
@@ -48,6 +51,8 @@ class PatientsRepository implements IPatientsRepository {
         cpf,
         cep,
         address,
+        gender,
+        phone_number,
     }: IUpdatePatientDTO): Promise<Patient> {
         const patient = await this.ormRepository.findOne({
             cpf
@@ -59,11 +64,13 @@ class PatientsRepository implements IPatientsRepository {
 
         const updatedPatient = {
             ...patient,
-            name,
-            date_of_birth,
             cpf,
             cep,
+            name,
+            date_of_birth,
             address,
+            phone_number,
+            gender,
         };
 
         await this.ormRepository.save(updatedPatient);
@@ -72,17 +79,15 @@ class PatientsRepository implements IPatientsRepository {
     }
 
     public async findByCpf(cpf: string): Promise<Patient | undefined> {
-        const user = await this.ormRepository.findOne({
+        const patient = await this.ormRepository.findOne({
             where: { cpf },
         });
 
-        return user;
+        return patient;
     }
 
     public async findAll(): Promise<Patient[] | undefined> {
-        const query = this.ormRepository.createQueryBuilder('patients').orderBy('patients.id', 'ASC');
-    
-        const patients = await query.getMany();
+        const patients = this.ormRepository.find()
     
         return patients
     }

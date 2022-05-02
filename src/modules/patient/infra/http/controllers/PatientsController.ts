@@ -48,17 +48,18 @@ class PatientsController {
 
     public async update(request: Request, response: Response): Promise<Response> {
         const { cpf } = request.params;
-        const { name, date_of_birth, phone_number, cep, address } = request.body;
+        const { name, date_of_birth, phone_number, cep, address, gender } = request.body;
 
         const updatePatient = container.resolve(UpdatePatientService);
 
-        const updatedPatient = updatePatient.execute({
+        const updatedPatient = await updatePatient.execute({
             cpf,
             name,
             date_of_birth,
             phone_number,
             cep,
-            address
+            address,
+            gender
         });
 
         return response.json(updatedPatient);

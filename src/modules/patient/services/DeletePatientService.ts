@@ -11,7 +11,7 @@ interface Request {
 @injectable()
 class DeletePatientService {
     constructor(
-        @inject('PatientRepository')
+        @inject('PatientsRepository')
         private patientsRepository: IPatientRepository,
     ) {}
 
