@@ -13,7 +13,6 @@ services:
       - POSTGRES_DB=ess
     volumes:
       - pgdata:/data/postgres
-    network_mode: host
     
   api: 
     build: .
@@ -22,8 +21,11 @@ services:
       - 3333:3333
     volumes:
       - .:/usr/app
-    network_mode: host
-    
+    links:
+      - db
+    depends_on: 
+      - db
+
 volumes:
   pgdata:
     driver: local
