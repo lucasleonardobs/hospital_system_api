@@ -17,7 +17,8 @@ describe('DeletePatient', () => {
             phone_number: "81999998888",
             cpf: "111.222.333-44",
             cep: "50555-555",
-            address: "Rua dos Artistas, No 30, Pinheiros, Recife"
+            address: "Rua dos Artistas, No 30, Pinheiros, Recife",
+            gender: 'male'
         });
 
         const { cpf } = patientDeleteTest;

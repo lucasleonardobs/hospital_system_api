@@ -23,7 +23,8 @@ describe('UpdatePatient', () => {
             date_of_birth: new Date(),
             phone_number: "81999998888",
             cep: "50555-555",
-            address: "Rua dos Artistas, No 30, Pinheiros, Recife"
+            address: "Rua dos Artistas, No 30, Pinheiros, Recife",
+            gender: 'male',
         });
 
         await updatePatient.execute({

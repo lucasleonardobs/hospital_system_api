@@ -17,7 +17,8 @@ describe('ShowOnePatient', () => {
             cep: '55555-555',
             cpf: '555.555.555-50',
             date_of_birth: new Date(2014-10-11),
-            phone_number: '55955554444'
+            phone_number: '55955554444',
+            gender: 'female',
         });
 
         await createPatient.execute({
@@ -26,7 +27,8 @@ describe('ShowOnePatient', () => {
             cep: '44444-444',
             cpf: '444.444.444-40',
             date_of_birth: new Date(2014-10-11),
-            phone_number: '55944443333'
+            phone_number: '55944443333',
+            gender: 'female',
         });
 
         await createPatient.execute({
@@ -35,7 +37,8 @@ describe('ShowOnePatient', () => {
             cep: '33333-333',
             cpf: '333.333.333-30',
             date_of_birth: new Date(2014-10-11),
-            phone_number: '55933332222'
+            phone_number: '55933332222',
+            gender: 'female',
         });
 
         const patientShow = await showOneProduct.execute({ cpf: patientTest.cpf });
