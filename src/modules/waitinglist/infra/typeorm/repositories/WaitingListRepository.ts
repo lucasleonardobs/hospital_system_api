@@ -3,6 +3,7 @@ import { getRepository, Repository } from 'typeorm';
 
 import IAddPatientInListDTO from '../../../dtos/IAddPatientInListDTO';
 import IAttendPatientDTO from '../../../dtos/IAttendPatientDTO';
+import IRemovePatientFromListDTO from '../../../dtos/IRemovePatientFromListDTO';
 
 import IWaitingListRepository from '../../../repositories/IWaitingListRepository';
 
@@ -50,16 +51,13 @@ class WaitingListRepository implements IWaitingListRepository {
             throw new AppError("Patient not found in WaitingList", 404);
         };
 
-        const updatedPatient = {
-            ...patientInList,
-            attended: true,
-        };
+        patientInList.attended = true;
+        patientInList.priority = null;
 
-        await this.ormRepository.save(updatedPatient);
+        await this.ormRepository.save(patientInList);
 
-        return updatedPatient;
+        return patientInList;
     }
-
 }
 
 export default WaitingListRepository;
