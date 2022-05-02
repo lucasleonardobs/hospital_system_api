@@ -79,6 +79,13 @@ class PatientsRepository implements IPatientsRepository {
         return user;
     }
 
+    public async findAll(): Promise<Patient[] | undefined> {
+        const query = this.ormRepository.createQueryBuilder('patients').orderBy('patients.id', 'ASC');
+    
+        const patients = await query.getMany();
+    
+        return patients
+    }
 }
 
 export default PatientsRepository;
