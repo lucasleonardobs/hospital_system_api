@@ -9,6 +9,7 @@ interface IPatientsRepository {
     create(data: ICreatePatientDTO): Promise<Patient>;
     update(data: IUpdatePatientDTO): Promise<Patient>;
     delete(data: IDeletePatientDTO): Promise<void>
+    findAll(): Promise<Patient[] | undefined>;
 }
 
 export default IPatientsRepository;
