@@ -6,7 +6,9 @@ import AddPatientService from '../../../services/AddPatientService';
 import AttendPatientService from '../../../services/AttendPatientService';
 import RemovePatientService from '../../../services/RemovePatientService';
 import ShowPatientInListService from '../../../services/ShowPatientInListService';
+import ListWaitingListService from '../../../services/ListWaitingListService';
 
+type IRequest = -1 | 0 | 1 | 2;
 class WaitingListController {
     public async addPatient(request: Request, response: Response): Promise<Response> {
         const { cpf, priority } = request.body;
@@ -44,7 +46,13 @@ class WaitingListController {
     };
 
     public async index(request: Request, response: Response): Promise<Response> {
-        return response.json();
+        const filter = request.query.filter as unknown as IRequest;
+
+        const listWaitingList = container.resolve(ListWaitingListService);
+
+        const patientsInList = await listWaitingList.execute({ filter });
+
+        return response.json(patientsInList);
     };
 
     public async show(request: Request, response: Response): Promise<Response> {
