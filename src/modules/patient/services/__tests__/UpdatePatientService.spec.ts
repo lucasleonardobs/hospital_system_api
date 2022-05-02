@@ -24,7 +24,7 @@ describe('UpdatePatient', () => {
             phone_number: "81999998888",
             cep: "50555-555",
             address: "Rua dos Artistas, No 30, Pinheiros, Recife",
-            gender: 'male',
+            gender: "male",
         });
 
         await updatePatient.execute({
@@ -33,7 +33,8 @@ describe('UpdatePatient', () => {
             date_of_birth: patient.date_of_birth,
             phone_number: "00000000000",
             cep: "00000-000",
-            address: "Rua das Bananas"
+            address: "Rua das Bananas",
+            gender: "female"
         })
 
         expect(patient.name).toBe('Banana');
@@ -56,7 +57,8 @@ describe('UpdatePatient', () => {
                 phone_number: "00000000000",
                 cpf: "000.000.000-00",
                 cep: "00000-000",
-                address: "Rua dos Bananas"
+                address: "Rua dos Bananas",
+                gender: "female",
             }),
         ).rejects.toBeInstanceOf(AppError);
     });
