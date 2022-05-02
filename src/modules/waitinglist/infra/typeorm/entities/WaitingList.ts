@@ -22,11 +22,17 @@ class WaitingList {
     @JoinColumn({ name: "patient_cpf" })
     patient: Patient;
 
-    @Column()
+    @Column({
+        default: false,
+    })
     attended: boolean;
 
-    @Column()
-    priority: 0 | 1 | 2 | null;
+    @Column({
+        type: "enum",
+        enum: [-1, 0, 1, 2],
+        default: -1,
+    })
+    priority: -1 | 0 | 1 | 2 ;
 
     @CreateDateColumn()
     created_at: Date;
