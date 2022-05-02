@@ -58,6 +58,12 @@ class WaitingListRepository implements IWaitingListRepository {
 
         return patientInList;
     }
+
+    public async removePatient({
+        cpf
+    }: IRemovePatientFromListDTO): Promise<void> {
+        await this.ormRepository.delete(cpf);
+    }
 }
 
 export default WaitingListRepository;
