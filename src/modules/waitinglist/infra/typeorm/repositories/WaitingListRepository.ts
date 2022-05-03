@@ -84,7 +84,7 @@ class WaitingListRepository implements IWaitingListRepository {
             query.orderBy('attended', 'DESC');
             query.addOrderBy('created_at', 'DESC');
         } else {
-            query.orderBy('attended', 'ASC');
+            query.orderBy('attended', 'DESC');
             query.addOrderBy('priority', 'DESC');
             query.addOrderBy('waitinglists.created_at', 'DESC');
         }
