@@ -1,5 +1,6 @@
 import express, { Request, Response, NextFunction } from 'express';
 import { errors } from 'celebrate';
+import cors from 'cors';
 
 import 'express-async-errors';
 import 'reflect-metadata';
@@ -11,8 +12,8 @@ import AppError from '../../errors/AppError';
 
 const app = express();
 
+app.use(cors());
 app.use(express.json());
-app.use(routes);
 app.use(errors()); 
 
 app.use((err: Error, request: Request, response: Response, _: NextFunction) => {
@@ -22,14 +23,16 @@ app.use((err: Error, request: Request, response: Response, _: NextFunction) => {
             message: err.message,
         });
     }
-  
+    
     console.error(err);
-  
+    
     return response.status(500).json({
         status: 'error',
         message: 'Internal server error',
     });
 });
+
+app.use(routes);
 
 app.get("/healthcheck", (_: Request, response: Response) => {
     response.send("ok").status(200)
