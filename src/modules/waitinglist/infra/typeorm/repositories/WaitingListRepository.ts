@@ -81,10 +81,10 @@ class WaitingListRepository implements IWaitingListRepository {
 
         if (filter >= 0) {
             query.where({priority: filter})
-            query.addOrderBy('waitinglists.created_at', 'DESC');
+            query.addOrderBy('waitinglists.created_at', 'ASC');
         } else {
             query.addOrderBy('priority', 'DESC');
-            query.addOrderBy('waitinglists.created_at', 'DESC');
+            query.addOrderBy('waitinglists.created_at', 'ASC');
         }
 
         query.leftJoinAndSelect("waitinglists.patient", "patients") 
